@@ -7,3 +7,4 @@ The development of Katti started as a pure crawling framework. In the meantime, 
 * Disclaimer
 At the moment we are in the process of releasing Katti v0.2. The proof of concept of the crawling engine can be found [[https://github.com/Flojo-der-erste/katti][here]]. The crawling engine is part of our demo paper for WebConf 2023. The paper can be found [[https://doi.acm.org?doi=3543873.3587351][here]].
 Katti v.0.2 will include a number of enhancements, such as a solution to the Docker container startup problem mentioned in the paper. 
+

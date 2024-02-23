@@ -1,0 +1,65 @@
+
+version: '3.3'
+services:
+  cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass redis --maxmemory 2G --maxmemory-policy allkeys-lru
+    volumes:
+      - cache:/data
+    networks:
+      net:
+        ipv4_address: 172.0.0.2
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ~/.docker-conf/rabbitmq/data:/var/lib/rabbitmq
+      - ~/.docker-conf/rabbitmq/log:/var/log/rabbitmq
+    networks:
+      net:
+        ipv4_address: 172.0.0.3
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    networks:
+      net:
+        ipv4_address: 172.0.0.4
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - '8081:8081'
+    networks:
+      net:
+        ipv4_address: 172.0.0.5
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mongo
+      ME_CONFIG_MONGODB_URL: mongodb://root:mongo@mongo:27017
+
+
+
+
+volumes:
+  cache:
+    driver: local
+
+
+
+networks:
+  net:
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.0.0.0/24

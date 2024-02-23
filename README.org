@@ -1,10 +1,39 @@
-* Katti who?  🚀 
+* Katti who?  🚀
 
 Katti is in the development phase. We are continuously working on improving Katti and adding new features. Therefore we will release new versions in regular intervals.
 
 The development of Katti started as a pure crawling framework. In the meantime, Katti not only offers the possibility to automatically load websites and store the data, but also provides the tools to analyze the obtained data. The goal is to develop a scalable platform that allows an easy automated analysis of websites and their infrastructure.
 
-* Disclaimer
-At the moment we are in the process of releasing Katti v0.2. The proof of concept of the crawling engine can be found [[https://github.com/Flojo-der-erste/katti][here]]. The crawling engine is part of our demo paper for WebConf 2023. The paper can be found [[https://doi.acm.org?doi=3543873.3587351][here]].
-Katti v.0.2 will include a number of enhancements, such as a solution to the Docker container startup problem mentioned in the paper. 
 
+* Requirements
+- =docker= and the =docker compose= plugin
+- Python >=3.10 (tested on =python==3.10=)
+
+* Instructions to do cool stuff
+1. Clone this repo to =~/katti=
+2. Optionally: Create and activate a virtual environment
+   - =cd katti=
+   - =pip install virtualenv=
+   - =virtualenv venv=
+   - =source venv/bin/activate=
+3. Set =$PYTHONPATH=
+   - =export PYTHONPATH=~/katti=
+4. Install Katti and its dependencies
+   - =pip install .=
+5. Start backbone services (Redis, MongoDB, RabbitMQ) with =docker compose=
+   - =docker compose up -d=
+6. Execute the Setup Script
+   - =python katti/SetupKatti=
+7. Start the celery workers
+   - =cd katti/CeleryApps=
+   - =celery -A celery -A KattiApp worker -Q scanning,default,fast_lane --concurrency 6 --loglevel debug=
+
+You're done! Execute the test script =~/katti/test.py= to see if it works.
+
+* Configuration
+See =~/katti/katti_config=
+- =database_configs.yml=, =celery.yml=: Configure the way Katti talks to the backbone services
+- =env.yml=: Manage API credentials
+- =scanner.yml=: Configure default scanners
+
+  You can change the default config paths in =~/katti/katti/KattiUtils/Configs/Paths.py=

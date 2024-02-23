@@ -1,0 +1,248 @@
+scanner:
+  - name: 'sink_db'
+    scanner_type: 'sink_db'
+    default: True
+    args:
+      name_server_name: 'sinkdb-dnsapi.abuse.ch' #API KEY API KEY API KEY
+      api_key: !API-KEY sinkdb_api_key
+
+  - name: 'abuse_ip_db'
+    scanner_type: 'abuse_ip_db'
+    default: True
+    args:
+      api_key: !API-KEY abuse_ip_db_api_key
+      url: 'https://api.abuseipdb.com/api/v2/check'
+
+
+  - name: 'google'
+    scanner_type: 'dns'
+    default: True
+    args:
+      name_server_ips:
+        - '8.8.8.8'
+        - '8.8.4.4'
+      allowed_record_types:
+        - 'A'
+        - 'ANY'
+        - 'AAAA'
+
+  - name: 'cisco_umbrella'
+    scanner_type: 'dns'
+    default: False
+    args:
+      name_server_ips:
+        - '208.67.222.222'
+      allowed_record_types:
+        - 'A'
+        - 'AAAA'
+      evaluation:
+        - type: 'a_record'
+          settings:
+            -
+              - '146.112.61.104'
+              -  'Domain List Block'
+            -
+              - '146.112.61.105'
+              -  'Command and Control Callback'
+            -
+              - '146.112.61.106'
+              -  'Content Category or Application'
+            -
+              - '146.112.61.107'
+              -  'Malware'
+            -
+              - '146.112.61.108'
+              -  'Phishing'
+            -
+              - '146.112.61.110'
+              -  'Security Integrations Block Page, Newly Seen Domains, DNS Tunneling VPN, Potentially Harmful, & Dynamic DNS'
+
+        - type: 'aaaa_record'
+          settings:
+            -
+              - '::ffff:146.112.61.104'
+              -  'Domain List Block'
+            -
+              - ':ffff:146.112.61.105'
+              -  'Command and Control Callback'
+            -
+              - '::ffff:146.112.61.106'
+              -  'Content Category or Application'
+            -
+              - '::ffff:146.112.61.107'
+              -  'Malware'
+            -
+              - '::ffff:146.112.61.108'
+              -  'Phishing'
+            -
+              - '::ffff:146.112.61.110'
+              -  'Security Integrations Block Page, Newly Seen Domains, DNS Tunneling VPN, Potentially Harmful, & Dynamic DNS'
+
+  - name: 'quad9'
+    scanner_type: 'dns'
+    default: False
+    args:
+      name_server_ips:
+        - '9.9.9.9'
+      allowed_record_types:
+        - 'A'
+        - 'ANY'
+        - 'AAAA'
+      evaluation:
+        - type: 'quad9'
+          settings:
+            -
+  - name: 'cloudflare_security_malware'
+    scanner_type: 'dns'
+    default: False
+    args:
+      allowed_record_types:
+        - 'A'
+        - 'AAAA'
+      name_server_ips:
+        - '1.1.1.2'
+      evaluation:
+        - type: 'a_record'
+          settings:
+            -
+              - '0.0.0.0'
+              - 'malicious'
+        - type: 'aaaa_record'
+          settings:
+            -
+              - ':::'
+              - 'malicious'
+
+  - name: 'farsight'
+    scanner_type: 'farsight'
+    default: True
+    args:
+          api_key: !API-KEY farsight_api_key
+
+  - name: 'gsb'
+    scanner_type: 'gsb'
+    default: True
+    args:
+      api_key: !API-KEY gsb_api_key
+      docker_ip: !IS-IP gsb_ip
+      docker_port: !IS-PORT gsb_port
+
+  - name: 'max_mind'
+    scanner_type: 'maxmind_offline'
+    default: True
+    args:
+      license_key: !API-KEY maxmind_api_key
+      docker_ip: !IS-IP maxmind_ip
+      docker_port: !IS-PORT maxmind_port
+
+  - name: 'shodan'
+    scanner_type: 'shodan'
+    default: True
+    args:
+      api_key: !API-KEY 'shodan_api_key'
+
+  - name: 'spamhaus'
+    scanner_type: 'spamhaus'
+    default: True
+    args:
+      name_server_name: 'zen.spamhaus.org'
+      record_mapping:
+        '127002': 'SBL_Spamhaus_SBL_Data'
+        '127003': 'SBL_Spamhaus_SBL_CSS_data'
+        '127004': 'XBL_CBL_Data'
+        '127005': 'XBL_CBL_Data'
+        '127006': 'XBL_CBL_Data'
+        '127007': 'XBL_CBL_Data'
+        '127009': 'SBL_Spamhaus_DROP/EDROP_Data'
+        '1270010': 'PBL_ISP_Maintained'
+        '1270011': 'PBL_Spamhaus_Maintained'
+
+  - name: 'ssl_scanner'
+    scanner_type: 'ssl_scanner'
+    default: True
+    args:
+
+  - name: 'team_cymru'
+    scanner_type: 'team_cymru'
+    default: True
+    args:
+
+  - name: "ptr_scanner"
+    scanner_type: 'ptr_scanner'
+    default: True
+    args:
+      dynamic_hints:
+        - "HSI-KBW"
+        - "dynamic"
+        - "adsl"
+        - "pppoe"
+        - "pool"
+        - "dip0"
+        - "web.vodafone.de"
+        - "dyn."
+        - "hsi."
+        - "dsl."
+        - "dip."
+        - "dialin"
+        - "cable.swschwedt.net"
+        - "customers.d1-online.com"
+        - "cust.telecolumbus.net"
+        - "ipv4.wtnet.de"
+        - "ip-addr.inexio.net"
+        - "net.encoline.de"
+        - "customer.m-online.net"
+        - "ip-addr.vsenet.de"
+        -  "muedsl"
+        - "dyndsl"
+        - "xdsl"
+        - "net-htp.de"
+      static_hints:
+        - "datapacket.com"
+        - "b2b-"
+        - "web"
+        - "vps"
+        - "smtp"
+        - "srv"
+        - "mx"
+        - "www"
+        - "mail"
+        - "host"
+        - "clients.your-server.de"
+        - "hosteurope"
+        - "hosting"
+        - "server"
+        - "static"
+        - "vultr.com"
+        - "dedi."
+        - "dedicated"
+        - "vps.ovh.net"
+        - "servdiscount-customer.com"
+        - "members.linode.com"
+        - "compute.amazonaws.com"
+        - "fixed"
+
+  - name: 'telekom_pdns'
+    scanner_type: 'telekom_pdns'
+    default: True
+    args:
+      url: 'https://api.cert.telekom.de/browser/pdns/api/'
+      user: !USER telekom_pdns_user
+      api_key: !API-KEY telekom_pdns_api_key
+
+  - name: 'traceroute'
+    scanner_type: 'traceroute'
+    default: True
+    args:
+
+  - name: 'virus_total'
+    scanner_type: 'virus_total'
+    default: True
+    args:
+      api_key: !API-KEY virus_total_api_key
+      vt_user: !USER virus_total_user
+
+  - name: 'whois'
+    scanner_type: 'whois'
+    default: True
+    args:
+

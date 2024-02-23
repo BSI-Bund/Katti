@@ -1,0 +1,7 @@
+redis:
+    password: 'redis'
+    host: 'localhost'
+    port: 6379
+    user: ''
+mongodb:
+    katti: "mongodb://root:mongo@localhost:27017/?directConnection=true"
